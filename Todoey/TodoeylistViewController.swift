@@ -10,7 +10,7 @@ import UIKit
 
 class TodoeylistViewController: UITableViewController {
 
-    let itemArray = ["hiten","bhai","maa"]
+    var itemArray = [""]
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -44,6 +44,34 @@ class TodoeylistViewController: UITableViewController {
         
         
     }
-
+    
+    //MARK- ADD new item button
+    
+    @IBAction func addNewItem(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+ // what will happen if user click add item
+        // print("succcefull!")
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+        }
+        alert.addTextField { (alertTextField) in
+            
+            alertTextField.placeholder = "create new item"
+           // print(alertTextField.text)
+            textField = alertTextField
+        }
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+            
+            
+        
+        
+        
+    }
+    
 }
 
