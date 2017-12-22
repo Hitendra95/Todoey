@@ -10,17 +10,18 @@ import UIKit
 
 class TodoeylistViewController: UITableViewController {
 
-    let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     var itemArray = [Item]()
     override func viewDidLoad() {
         super.viewDidLoad()
         let newItem = Item()
         itemArray.append(newItem)
-        if let item = defaults.array(forKey: "TodoListArray") as? [Item]
-        {
-            itemArray = item
-        }
+//        if let item = defaults.array(forKey: "TodoListArray") as? [Item]
+//        {
+//            itemArray = item
+//        }
         // Do any additional setup after loading the view, typically from a nib.
+        loadItems()
     }
 
   // MARK- Table view data source
@@ -40,6 +41,7 @@ class TodoeylistViewController: UITableViewController {
         {
             cell.accessoryType = .none
         }
+        
         return cell
     }
     // MARK- delegate method of table view
@@ -57,6 +59,7 @@ class TodoeylistViewController: UITableViewController {
         
        tableView.reloadData()
         
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
         
@@ -72,11 +75,11 @@ class TodoeylistViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
  // what will happen if user click add item
         // print("succcefull!")
+          
             let newItem = Item()
             newItem.title = textField.text!
             self.itemArray.append(newItem)
-            self.defaults.set(self.itemArray, forKey: "TodoListArray")
-            self.tableView.reloadData()
+          self.saveItem()
         }
         alert.addTextField { (alertTextField) in
             
@@ -84,14 +87,36 @@ class TodoeylistViewController: UITableViewController {
            // print(alertTextField.text)
             textField = alertTextField
         }
-            alert.addAction(action)
+        alert.addAction(action)
             present(alert, animated: true, completion: nil)
-            
-            
-        
-        
-        
-    }
     
+    }
+    func saveItem()
+    {
+        let encoder = PropertyListEncoder()
+        do{
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        }
+        catch
+        {
+            print("Error encoding item araay \(error)")
+        }
+    
+    }
+    func loadItems()
+    {
+        if let data = try? Data(contentsOf: dataFilePath!)
+        {
+            let decoder = PropertyListDecoder()
+            do
+            {
+                itemArray = try decoder.decode([Item].self, from: data)
+            }
+            catch
+            {
+                print(error)
+            }
+        }
+    }
 }
-
