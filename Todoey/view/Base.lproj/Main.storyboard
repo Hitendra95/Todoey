@@ -82,13 +82,13 @@
         <!--Category-->
         <scene sceneID="lpV-pl-rwB">
             <objects>
-                <tableViewController id="ZNY-zk-ZbD" sceneMemberID="viewController">
+                <tableViewController id="ZNY-zk-ZbD" customClass="CategoryViewController" customModule="Todoey" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Y11-YF-XeD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="2MC-Yd-lT6">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Categorycell" id="2MC-Yd-lT6">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2MC-Yd-lT6" id="Hrz-1X-J7Q">
@@ -105,6 +105,9 @@
                     <navigationItem key="navigationItem" title="Category" id="OKg-o8-pbn">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="u2w-Xp-8Ve">
                             <color key="tintColor" red="0.97631285820000002" green="1" blue="0.97414573149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="addButtonpressed:" destination="ZNY-zk-ZbD" id="qSd-g3-uRP"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

@@ -12,14 +12,23 @@ import CoreData
 class TodoeylistViewController: UITableViewController {
 
  //   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    
+    var selectedCategory : Category?{
+        didSet {
+            loadItems()
+            
+        }
+    }
     var itemArray = [Item]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //let newItem = Item()  //codeable type code
         //Core data code
         
-        loadItems()
+        //loadItems()
 
     }
   // MARK- Table view data source
@@ -77,6 +86,7 @@ class TodoeylistViewController: UITableViewController {
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
+            newItem.parentCategory = self.selectedCategory
             self.itemArray.append(newItem)
           self.saveItem()
         }
@@ -106,9 +116,22 @@ class TodoeylistViewController: UITableViewController {
         self.tableView.reloadData()
     
     }
-    func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest())
+    func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest(), predicate : NSPredicate? = nil)
 
     {
+        let categoryPredicate = NSPredicate(format:"parentCategory.name MATCHES %@",selectedCategory!.name!)
+        if let additionalPredicate = predicate
+        {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate , additionalPredicate])
+            
+        }
+        else
+        {
+                request.predicate = categoryPredicate
+        
+        }
+//        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate , predicate])
+//        request.predicate = compoundPredicate
 //        if let data = try? Data(contentsOf: dataFilePath!)
 //
 //        {
@@ -144,7 +167,7 @@ extension TodoeylistViewController : UISearchBarDelegate
         request.predicate = predicate
         let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [sortDescriptor]
-        loadItems(with: request)
+        loadItems(with: request , predicate: predicate)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
