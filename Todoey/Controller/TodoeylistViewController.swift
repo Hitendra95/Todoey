@@ -7,12 +7,10 @@
 //
 
 import UIKit
-//import CoreData
 import RealmSwift
 
 class TodoeylistViewController: UITableViewController {
-
- //   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    
     let realm = try! Realm()
     
     var selectedCategory : Category?{
@@ -21,16 +19,11 @@ class TodoeylistViewController: UITableViewController {
             
         }
     }
-    //var itemArray = [Item]() core data
-     //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext core data code
-    
+ 
     var todoItems : Results<Item>?
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let newItem = Item()  //codeable type code
-        //Core data code
-        
-        //loadItems()
+       
 
     }
   // MARK- Table view data source
@@ -51,17 +44,7 @@ class TodoeylistViewController: UITableViewController {
             cell.textLabel?.text = "No Item Added"
             
         }
-//        cell.textLabel?.text = todoItems?[indexPath.row].title
-//        if todoItems[indexPath.row].done == true
-//        {
-//            cell.accessoryType = .checkmark
-//        }
-//        else
-//        {
-//            cell.accessoryType = .none
-//        }
-//
-        
+
         return cell
     }
     // MARK- delegate method of table view
@@ -81,15 +64,7 @@ class TodoeylistViewController: UITableViewController {
             }
         }
         
-//        if todoItems[indexPath.row].done == false
-//        {
-//            todoItems[indexPath.row].done = true
-//        }
-//        else
-//        {
-//            todoItems[indexPath.row].done = false
-//        }
-        
+
        tableView.reloadData()
         
         
@@ -107,7 +82,6 @@ class TodoeylistViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
  // what will happen if user click add item
-        // print("succcefull!")
           if let currentCategor = self.selectedCategory
           {
             do{
@@ -125,67 +99,19 @@ class TodoeylistViewController: UITableViewController {
            
     }
     tableView.reloadData()
-            
-            
-            //newItem.done = false
-           // newItem.parentCategory = self.selectedCategory
-            //self.itemArray.append(newItem)
-         
-         // self.saveItem()
-        alert.addTextField { (alertTextField) in
+    alert.addTextField { (alertTextField) in
             
             alertTextField.placeholder = "create new item"
-           // print(alertTextField.text)
             textField = alertTextField
         }
         alert.addAction(action)
             present(alert, animated: true, completion: nil)
     
 }
-//    func saveItem()
-//    {
-//       // let encoder = PropertyListEncoder()
-//        do{
-//            //codeable code
-//            //let data = try encoder.encode(itemArray)
-//            //try data.write(to: dataFilePath!)
-//            try context.save()
-//        }
-//        catch
-//        {
-//            print("Error saving context \(error)")
-//        }
-//        self.tableView.reloadData()
-//
-//    }
-   // func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest(), predicate : NSPredicate? = nil) core data
+
     func loadItems()
     {
-// core data code
-//        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate , predicate])
-//        request.predicate = compoundPredicate
-//        if let data = try? Data(contentsOf: dataFilePath!)
-//
-//        {
-//            let decoder = PropertyListDecoder()
-//            do
-//            {
-//                itemArray = try decoder.decode([Item].self, from: data)
-//            }
-//            catch
-//            {
-//                print(error)
-//            }
-//        }
-       
-//        do
-//        {
-//           itemArray =  try context.fetch(request)
-//        }
-//        catch
-//        {
-//            print("error in fetching data \(error)")
-//        }
+
         todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
         tableView.reloadData()
    }
@@ -199,12 +125,7 @@ extension TodoeylistViewController : UISearchBarDelegate
         
         tableView.reloadData()
 
-//        let request : NSFetchRequest<Item> = Item.fetchRequest()
-//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
-//        request.predicate = predicate
-//        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-//        request.sortDescriptors = [sortDescriptor]
-//        loadItems(with: request , predicate: predicate)
+
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
